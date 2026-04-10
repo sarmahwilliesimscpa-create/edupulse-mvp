@@ -1,6 +1,6 @@
 # EduPulse School Management
 
-Live demo: https://YOUR_NETLIFY_URL
+Live demo: [https://YOUR_NETLIFY_URL](https://edupulse-mvp.netlify.app/)
 
 ## Setup
 1. Supabase project
