@@ -5,86 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EduPulse — School Management System</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  /* STYLES FROM paste.txt */
-  :root {
-    --bg: #0a0e1a;
-    --bg2: #111827;
-    --bg3: #1a2235;
-    --bg4: #1f2d45;
-    --surface: #1e2a3a;
-    --surface2: #243347;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.13);
-    --text: #f0f4ff;
-    --text2: #8b9fc4;
-    --text3: #5a6b87;
-    --accent: #4f8ef7;
-    --accent2: #6366f1;
-    --green: #22c55e;
-    --amber: #f59e0b;
-    --red: #ef4444;
-    --teal: #14b8a6;
-    --pink: #ec4899;
-    --purple: #a855f7;
-    --r: 10px;
-    --r2: 14px;
-    --r3: 18px;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow:hidden;}
-  
-  #sidebar{width:240px;min-width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:100;transition:width .3s;}
-  .logo{padding:24px 20px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
-  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;}
-  .logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.5px;}
-  .logo-text span{color:var(--accent);}
-  .nav-section{padding:12px 12px 0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);}
-  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:2px 8px;border-radius:var(--r);cursor:pointer;transition:all .2s;font-size:13.5px;color:var(--text2);}
-  .nav-item:hover{background:var(--bg3);color:var(--text);}
-  .nav-item.active{background:linear-gradient(135deg,rgba(79,142,247,0.18),rgba(99,102,241,0.12));color:var(--accent);font-weight:500;}
-  .nav-icon{width:18px;height:18px;opacity:.75;flex-shrink:0;}
-  .badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;}
-  .sidebar-footer{margin-top:auto;padding:16px;border-top:1px solid var(--border);}
-  .user-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg3);border-radius:var(--r);cursor:pointer;}
-  .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;}
-  .user-info{flex:1;min-width:0;}
-  .user-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .user-role{font-size:11px;color:var(--text3);}
 
-  #main{margin-left:240px;flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
-  #topbar{height:60px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;}
-  .topbar-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
-  .search-bar{flex:1;max-width:400px;margin-left:auto;position:relative;}
-  .search-bar input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px 8px 36px;color:var(--text);font-size:13px;outline:none;font-family:'DM Sans',sans-serif;}
-  .icon-btn{width:36px;height:36px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;position:relative;color:var(--text2);}
-  #content{flex:1;overflow-y:auto;padding:24px;background:var(--bg);}
-
-  .page{display:none;}
-  .page.active{display:block;}
-
-  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
-  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:20px;position:relative;overflow:hidden;}
-  .stat-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
-  .stat-value{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1;}
-  .stat-sub{font-size:12px;color:var(--text3);margin-top:8px;display:flex;align-items:center;gap:4px;}
-  .stat-up{color:var(--green);}
-
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:20px;}
-  .card-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
-  
-  .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .2s;font-family:'DM Sans',sans-serif;}
-  .btn-primary{background:var(--accent);color:#fff;}
-  .live-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;display:inline-block;margin-right:6px;}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
-
-  @media(max-width:768px){
-    #sidebar{width:60px;}
-    #sidebar .logo-text,.user-info,.nav-item span{display:none;}
-    #main{margin-left:60px;}
-  }
-</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+/* 2. Styles from paste.txt [cite: 3] */
+:root {
+  --bg: #0a0e1a;
+  --bg2: #111827;
+  --bg3: #1a2235;
+  --bg4: #1f2d45;
+  --surface: #1e2a3a;
+  --surface2: #243347;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #f0f4ff;
+  --text2: #8b9fc4;
+  --text3: #5a6b87;
+  --accent: #4f8ef7;
+  --accent2: #6366f1;
+  --green: #22c55e;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --teal: #14b8a6;
+  --pink: #ec4899;
+  --purple: #a855f7;
+  --r: 10px;
+  --r2: 14px;
+  --r3: 18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow:hidden;}
+
+#sidebar{width:240px;min-width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;position:fixed;left:0;top:0;z-index:100;transition:width .3s;}
+.logo{padding:24px 20px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;}
+.logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.5px;}
+.logo-text span{color:var(--accent);}
+.nav-section{padding:12px 12px 0;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:2px 8px;border-radius:var(--r);cursor:pointer;transition:all .2s;font-size:13.5px;color:var(--text2);}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{background:linear-gradient(135deg,rgba(79,142,247,0.18),rgba(99,102,241,0.12));color:var(--accent);font-weight:500;}
+
+#main{margin-left:240px;flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#topbar{height:60px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0;}
+.topbar-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
+.search-bar{flex:1;max-width:400px;margin-left:auto;position:relative;}
+.search-bar input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px 8px 36px;color:var(--text);font-size:13px;outline:none;font-family:'DM Sans',sans-serif;}
+
+#content{flex:1;overflow-y:auto;padding:24px;background:var(--bg);}
+.page{display:none;}
+.page.active{display:block;}
+
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:20px;position:relative;overflow:hidden;}
+.stat-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+.stat-value{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1;}
+.stat-sub{font-size:12px;color:var(--text3);margin-top:8px;}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:20px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .2s;}
+.btn-primary{background:var(--accent);color:#fff;}
+
+.data-table{width:100%;border-collapse:collapse;margin-top:15px;}
+.data-table th{font-size:11px;text-transform:uppercase;color:var(--text3);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
+.data-table td{padding:10px 12px;font-size:13.5px;border-bottom:1px solid var(--border);}
+
+.live-dot{width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block;margin-right:6px;}
+
+@media(max-width:768px){
+  #sidebar{width:60px;}
+  #sidebar span, .logo-text {display:none;}
+  #main{margin-left:60px;}
+}
+</style>
 </head>
 <body>
 
@@ -93,67 +87,54 @@
     <div class="logo-icon">E</div>
     <div class="logo-text">Edu<span>Pulse</span></div>
   </div>
-  <div style="overflow-y:auto;flex:1;padding-bottom:12px;">
-    <div class="nav-section" style="margin-top:14px;">Overview</div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)">
-      <span>Dashboard</span>
-    </div>
-    <div class="nav-section" style="margin-top:16px;">Academics</div>
-    <div class="nav-item" onclick="showPage('students',this)">
-      <span>Students</span>
-    </div>
+  <div class="nav-section">Academics</div>
+  <div class="nav-item active" onclick="showPage('dashboard', this)">
+    <span>Dashboard</span>
   </div>
-  <div class="sidebar-footer">
-    <div class="user-card">
-      <div class="avatar">SA</div>
-      <div class="user-info">
-        <div class="user-name">Sarah Admin</div>
-        <div class="user-role">School Owner</div>
-      </div>
-    </div>
+  <div class="nav-item" onclick="showPage('students', this)">
+    <span>Students</span>
   </div>
 </aside>
 
 <main id="main">
   <div id="topbar">
-    <div class="topbar-title">Dashboard</div>
+    <div class="topbar-title" id="topbar-title">Dashboard</div>
     <div class="search-bar">
-      <input type="text" placeholder="Search students...">
+      <input type="text" placeholder="Search...">
     </div>
   </div>
 
   <div id="content">
     <div class="page active" id="page-dashboard">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;">
         <div>
-          <div style="font-size:13px;color:var(--text3);margin-bottom:4px;"><span class="live-dot"></span>Live · April 10, 2026</div>
-          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;">Good morning, Sarah 👋</div>
+          <div style="font-size:13px;color:var(--text3);"><span class="live-dot"></span>Live System</div>
+          <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;">Welcome, Admin</div>
         </div>
-        <button class="btn btn-primary" id="add-student-btn">
-          Add Student
-        </button>
+        <button class="btn btn-primary" id="btn-add-student">Add Student</button>
       </div>
 
       <div class="stat-grid">
-        <div class="stat-card blue">
+        <div class="stat-card">
           <div class="stat-label">Total Students</div>
-          <div class="stat-value" id="student-count" style="color:var(--accent);">0</div>
-          <div class="stat-sub"><span class="stat-up">↑ Live</span> from database</div>
+          <div class="stat-value" id="count-students">0</div>
+          <div class="stat-sub">Live from Database</div>
         </div>
       </div>
-      
+
       <div class="card">
-        <div class="card-title">Live Student Roster</div>
-        <table style="width:100%; text-align:left;" id="student-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Grade</th>
-                    <th>Section</th>
-                </tr>
-            </thead>
-            <tbody id="student-list-body">
-                </tbody>
+        <div class="card-title" style="font-family:'Syne',sans-serif; font-weight:700;">Student Directory</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Grade</th>
+              <th>Section</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
+          <tbody id="student-table-body">
+            </tbody>
         </table>
       </div>
     </div>
@@ -161,68 +142,80 @@
 </main>
 
 <script>
-/* 1. ORIGINAL FUNCTIONS (paste.txt logic) */
+/** * 4. Scripts from paste.txt [cite: 5] 
+ * Combined with Supabase Logic [cite: 1, 5]
+ */
+
+// Navigation logic
 function showPage(pageId, element) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + pageId).classList.add('active');
-    
-    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-    element.classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  element.classList.add('active');
 }
 
-function populateStudentsTable(students) {
-    const listBody = document.getElementById('student-list-body');
-    const countDisplay = document.getElementById('student-count');
-    
-    countDisplay.textContent = students.length;
-    listBody.innerHTML = '';
-    
-    students.forEach(s => {
-        const row = `<tr>
-            <td>${s.first_name} ${s.last_name}</td>
-            <td>${s.grade}</td>
-            <td>${s.section}</td>
-        </tr>`;
-        listBody.innerHTML += row;
-    });
+// Table population logic
+function populateStudentsTable(data) {
+  const tbody = document.getElementById('student-table-body');
+  const countEl = document.getElementById('count-students');
+  
+  countEl.textContent = data ? data.length : 0;
+  tbody.innerHTML = '';
+  
+  if (!data || data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No students found</td></tr>';
+    return;
+  }
+
+  data.forEach(student => {
+    const row = `
+      <tr>
+        <td>${student.first_name} ${student.last_name}</td>
+        <td>${student.grade}</td>
+        <td>${student.section}</td>
+        <td>${student.parent_phone || 'N/A'}</td>
+      </tr>
+    `;
+    tbody.innerHTML += row;
+  });
 }
 
-/* 2. SUPABASE INTEGRATION (Supabase code) */
+/* 5. Supabase Initialization [cite: 1, 5] */
 const SUPABASE_URL = 'https://yrdiybvygypkqpmftwro.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable__tFocpNXgTa5hWr61B_CjQ_9gRlRD0h';
-const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Live data loading [cite: 5]
 async function loadStudents() {
   try {
     const { data, error } = await supabase.from('students').select('*');
     if (error) throw error;
-    populateStudentsTable(data || []);
+    populateStudentsTable(data);
     console.log('✅ LIVE students:', data?.length);
   } catch(e) { 
-    console.error('Connection error or table missing:', e.message); 
+    console.log('Error loading tables:', e.message); 
   }
 }
 
-document.getElementById('add-student-btn').addEventListener('click', async() => {
-    const newStudent = {
-      first_name: 'New', 
-      last_name: 'Student ' + Math.floor(Math.random() * 1000),
-      grade: '10', 
-      section: 'A', 
-      parent_phone: '555-0199'
-    };
+// Event Listener for Adding Students [cite: 5]
+document.getElementById('btn-add-student').addEventListener('click', async () => {
+  const { error } = await supabase.from('students').insert([{
+    first_name: 'New', 
+    last_name: 'Student ' + Date.now(),
+    grade: '10', 
+    section: 'A', 
+    parent_phone: '123456'
+  }]);
 
-    const { error } = await supabase.from('students').insert([newStudent]);
-    
-    if(!error) {
-        alert('✅ Student SAVED to database!');
-        loadStudents();
-    } else {
-        console.error('Error adding student:', error.message);
-    }
+  if (!error) {
+    alert('✅ Student SAVED to database!');
+    loadStudents();
+  } else {
+    alert('Error saving student: ' + error.message);
+  }
 });
 
-// INITIAL LOAD
+// Auto load on start [cite: 5]
 loadStudents();
 </script>
 
